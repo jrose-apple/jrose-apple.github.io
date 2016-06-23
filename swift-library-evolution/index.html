@@ -40,7 +40,7 @@
 </tbody>
 </table>
 
-<p>[<strong>This is a snapshot of <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst">docs/LibraryEvolution.rst</a> in the Swift repository.</strong> Last updated 2016-06-20.]</p>
+<p>[<strong>This is a snapshot of <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst">docs/LibraryEvolution.rst</a> in the Swift repository.</strong> Last updated 2016-06-22.]</p>
 
 <p>One of Swift&#8217;s primary design goals is to allow efficient execution of code
 without sacrificing load-time abstraction of implementation.</p>
@@ -74,85 +74,85 @@ behavior is safe</strong>. Where possible, choices made when an entity is first
 published should not limit its evolution in the future.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#introduction" id="id7">Introduction</a></li>
-<li><a class="reference internal" href="#using-versioned-api" id="id8">Using Versioned API</a><ul>
-<li><a class="reference internal" href="#declaring-library-version-dependencies" id="id9">Declaring Library Version Dependencies</a></li>
+<li><a class="reference internal" href="#introduction" id="id8">Introduction</a></li>
+<li><a class="reference internal" href="#using-versioned-api" id="id9">Using Versioned API</a><ul>
+<li><a class="reference internal" href="#declaring-library-version-dependencies" id="id10">Declaring Library Version Dependencies</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#publishing-versioned-api" id="id10">Publishing Versioned API</a><ul>
-<li><a class="reference internal" href="#syntax-1-attributes" id="id11">Syntax #1: Attributes</a></li>
-<li><a class="reference internal" href="#syntax-2-version-blocks" id="id12">Syntax #2: Version Blocks</a></li>
-<li><a class="reference internal" href="#syntax-3-the-public-modifier" id="id13">Syntax #3: The <code class="docutils literal"><span class="pre">public</span></code> modifier</a></li>
+<li><a class="reference internal" href="#publishing-versioned-api" id="id11">Publishing Versioned API</a><ul>
+<li><a class="reference internal" href="#syntax-1-attributes" id="id12">Syntax #1: Attributes</a></li>
+<li><a class="reference internal" href="#syntax-2-version-blocks" id="id13">Syntax #2: Version Blocks</a></li>
+<li><a class="reference internal" href="#syntax-3-the-public-modifier" id="id14">Syntax #3: The <code class="docutils literal"><span class="pre">public</span></code> modifier</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#supported-evolution" id="id14">Supported Evolution</a><ul>
-<li><a class="reference internal" href="#top-level-functions" id="id15">Top-Level Functions</a><ul>
-<li><a class="reference internal" href="#inlineable-functions" id="id16">Inlineable Functions</a></li>
-<li><a class="reference internal" href="#restrictions-on-inlineable-functions" id="id17">Restrictions on Inlineable Functions</a></li>
-<li><a class="reference internal" href="#always-emit-into-client" id="id18"><code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code></a></li>
-<li><a class="reference internal" href="#default-argument-expressions" id="id19">Default Argument Expressions</a></li>
+<li><a class="reference internal" href="#supported-evolution" id="id15">Supported Evolution</a><ul>
+<li><a class="reference internal" href="#top-level-functions" id="id16">Top-Level Functions</a><ul>
+<li><a class="reference internal" href="#inlineable-functions" id="id17">Inlineable Functions</a></li>
+<li><a class="reference internal" href="#restrictions-on-inlineable-functions" id="id18">Restrictions on Inlineable Functions</a></li>
+<li><a class="reference internal" href="#alwaysemitintoclient" id="id19"><code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code></a></li>
+<li><a class="reference internal" href="#default-argument-expressions" id="id20">Default Argument Expressions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#top-level-variables-and-constants" id="id20">Top-Level Variables and Constants</a><ul>
-<li><a class="reference internal" href="#giving-up-flexibility" id="id21">Giving Up Flexibility</a></li>
+<li><a class="reference internal" href="#top-level-variables-and-constants" id="id21">Top-Level Variables and Constants</a><ul>
+<li><a class="reference internal" href="#giving-up-flexibility" id="id22">Giving Up Flexibility</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#structs" id="id22">Structs</a><ul>
-<li><a class="reference internal" href="#methods-and-initializers" id="id23">Methods and Initializers</a></li>
-<li><a class="reference internal" href="#properties" id="id24">Properties</a></li>
-<li><a class="reference internal" href="#subscripts" id="id25">Subscripts</a></li>
-<li><a class="reference internal" href="#new-conformances" id="id26">New Conformances</a></li>
-<li><a class="reference internal" href="#fixed-contents-structs" id="id27">Fixed-Contents Structs</a></li>
+<li><a class="reference internal" href="#structs" id="id23">Structs</a><ul>
+<li><a class="reference internal" href="#methods-and-initializers" id="id24">Methods and Initializers</a></li>
+<li><a class="reference internal" href="#properties" id="id25">Properties</a></li>
+<li><a class="reference internal" href="#subscripts" id="id26">Subscripts</a></li>
+<li><a class="reference internal" href="#new-conformances" id="id27">New Conformances</a></li>
+<li><a class="reference internal" href="#fixed-contents-structs" id="id28">Fixed-Contents Structs</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#enums" id="id28">Enums</a><ul>
-<li><a class="reference internal" href="#initializers" id="id29">Initializers</a></li>
-<li><a class="reference internal" href="#methods-and-subscripts" id="id30">Methods and Subscripts</a></li>
-<li><a class="reference internal" href="#closed-enums" id="id31">Closed Enums</a></li>
+<li><a class="reference internal" href="#enums" id="id29">Enums</a><ul>
+<li><a class="reference internal" href="#initializers" id="id30">Initializers</a></li>
+<li><a class="reference internal" href="#methods-and-subscripts" id="id31">Methods and Subscripts</a></li>
+<li><a class="reference internal" href="#closed-enums" id="id32">Closed Enums</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#protocols" id="id32">Protocols</a></li>
-<li><a class="reference internal" href="#classes" id="id33">Classes</a><ul>
-<li><a class="reference internal" href="#id2" id="id34">Initializers</a></li>
-<li><a class="reference internal" href="#methods" id="id35">Methods</a></li>
-<li><a class="reference internal" href="#id3" id="id36">Properties</a></li>
-<li><a class="reference internal" href="#id4" id="id37">Subscripts</a></li>
-<li><a class="reference internal" href="#possible-restrictions-on-classes" id="id38">Possible Restrictions on Classes</a></li>
+<li><a class="reference internal" href="#protocols" id="id33">Protocols</a></li>
+<li><a class="reference internal" href="#classes" id="id34">Classes</a><ul>
+<li><a class="reference internal" href="#id2" id="id35">Initializers</a></li>
+<li><a class="reference internal" href="#methods" id="id36">Methods</a></li>
+<li><a class="reference internal" href="#id3" id="id37">Properties</a></li>
+<li><a class="reference internal" href="#id4" id="id38">Subscripts</a></li>
+<li><a class="reference internal" href="#possible-restrictions-on-classes" id="id39">Possible Restrictions on Classes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#extensions" id="id39">Extensions</a><ul>
-<li><a class="reference internal" href="#protocol-extensions" id="id40">Protocol Extensions</a></li>
+<li><a class="reference internal" href="#extensions" id="id40">Extensions</a><ul>
+<li><a class="reference internal" href="#protocol-extensions" id="id41">Protocol Extensions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operators" id="id41">Operators</a></li>
-<li><a class="reference internal" href="#typealiases" id="id42">Typealiases</a></li>
-<li><a class="reference internal" href="#a-unifying-theme" id="id43">A Unifying Theme</a></li>
+<li><a class="reference internal" href="#operators" id="id42">Operators</a></li>
+<li><a class="reference internal" href="#typealiases" id="id43">Typealiases</a></li>
+<li><a class="reference internal" href="#a-unifying-theme" id="id44">A Unifying Theme</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#versioning-internal-declarations" id="id44">Versioning Internal Declarations</a></li>
-<li><a class="reference internal" href="#backdating" id="id45">&#8220;Backdating&#8221;</a></li>
-<li><a class="reference internal" href="#optimization" id="id46">Optimization</a><ul>
-<li><a class="reference internal" href="#inlineable-code" id="id47">Inlineable Code</a></li>
-<li><a class="reference internal" href="#local-availability-contexts" id="id48">Local Availability Contexts</a></li>
-<li><a class="reference internal" href="#other-promises-about-types" id="id49">Other Promises About Types</a></li>
+<li><a class="reference internal" href="#versioning-internal-declarations" id="id45">Versioning Internal Declarations</a></li>
+<li><a class="reference internal" href="#backdating" id="id46">&#8220;Backdating&#8221;</a></li>
+<li><a class="reference internal" href="#optimization" id="id47">Optimization</a><ul>
+<li><a class="reference internal" href="#inlineable-code" id="id48">Inlineable Code</a></li>
+<li><a class="reference internal" href="#local-availability-contexts" id="id49">Local Availability Contexts</a></li>
+<li><a class="reference internal" href="#other-promises-about-types" id="id50">Other Promises About Types</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#resilience-domains" id="id50">Resilience Domains</a><ul>
-<li><a class="reference internal" href="#deployments" id="id51">Deployments</a></li>
+<li><a class="reference internal" href="#resilience-domains" id="id51">Resilience Domains</a><ul>
+<li><a class="reference internal" href="#deployments" id="id52">Deployments</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#checking-binary-compatibility" id="id52">Checking Binary Compatibility</a><ul>
-<li><a class="reference internal" href="#automatic-versioning" id="id53">Automatic Versioning</a></li>
+<li><a class="reference internal" href="#checking-binary-compatibility" id="id53">Checking Binary Compatibility</a><ul>
+<li><a class="reference internal" href="#automatic-versioning" id="id54">Automatic Versioning</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#open-issues" id="id54">Open Issues</a><ul>
-<li><a class="reference internal" href="#subclass-and-base-both-conform-to-protocol" id="id55">Subclass and base both conform to protocol</a></li>
-<li><a class="reference internal" href="#recompiling-changes-a-protocol-s-implementation" id="id56">Recompiling changes a protocol&#8217;s implementation</a></li>
+<li><a class="reference internal" href="#open-issues" id="id55">Open Issues</a><ul>
+<li><a class="reference internal" href="#subclass-and-base-both-conform-to-protocol" id="id56">Subclass and base both conform to protocol</a></li>
+<li><a class="reference internal" href="#recompiling-changes-a-protocol-s-implementation" id="id57">Recompiling changes a protocol&#8217;s implementation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#summary" id="id57">Summary</a></li>
-<li><a class="reference internal" href="#related-proposals" id="id58">Related Proposals</a></li>
-<li><a class="reference internal" href="#glossary" id="id59">Glossary</a></li>
+<li><a class="reference internal" href="#summary" id="id58">Summary</a></li>
+<li><a class="reference internal" href="#related-proposals" id="id59">Related Proposals</a></li>
+<li><a class="reference internal" href="#glossary" id="id60">Glossary</a></li>
 </ul>
 </div>
 <div class="admonition-todo admonition">
@@ -163,7 +163,7 @@ you can&#8217;t just release a new dylib to fix a bug.</li>
 </ul>
 </div>
 <div class="section" id="introduction">
-<h1><a class="toc-backref" href="#id7">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id8">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>This model is intended to serve library designers whose libraries will evolve
 over time. Such libraries must be both <a class="reference internal" href="#term-backwards-compatible"><span class="xref std std-term">backwards-compatible</span></a>, meaning that
 existing clients should continue to work even when the library is updated, and
@@ -215,7 +215,7 @@ changing the fields in a struct will not automatically cause problems for
 existing clients, so we say the struct is &#8220;resilient&#8221;.</p>
 </div>
 <div class="section" id="using-versioned-api">
-<h1><a class="toc-backref" href="#id8">Using Versioned API</a><a class="headerlink" href="#using-versioned-api" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id9">Using Versioned API</a><a class="headerlink" href="#using-versioned-api" title="Permalink to this headline">¶</a></h1>
 <p>References to a versioned API must always be guarded with the appropriate
 availability checks. This means that any client entities that rely on certain
 APIs from a library must themselves be restricted to contexts in which those
@@ -247,7 +247,7 @@ in a framework bundle on Darwin platforms.</p>
 Swift 2.0, but generalized for checking library versions instead of just OS
 versions.</p>
 <div class="section" id="declaring-library-version-dependencies">
-<h2><a class="toc-backref" href="#id9">Declaring Library Version Dependencies</a><a class="headerlink" href="#declaring-library-version-dependencies" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">Declaring Library Version Dependencies</a><a class="headerlink" href="#declaring-library-version-dependencies" title="Permalink to this headline">¶</a></h2>
 <p>Swift 2&#8217;s availability model includes the notion of a <em>minimum deployment
 target,</em> the version of an OS that must be present for the program being
 compiled to run at all. For example, a program compiled with a minimum
@@ -263,7 +263,7 @@ document.</p>
 </div>
 </div>
 <div class="section" id="publishing-versioned-api">
-<h1><a class="toc-backref" href="#id10">Publishing Versioned API</a><a class="headerlink" href="#publishing-versioned-api" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id11">Publishing Versioned API</a><a class="headerlink" href="#publishing-versioned-api" title="Permalink to this headline">¶</a></h1>
 <p>A library&#8217;s API is already marked with the <code class="docutils literal"><span class="pre">public</span></code> attribute, but if a
 client wants to work with multiple releases of the library, the API needs
 versioning information as well. A <em>versioned entity</em> represents anything with a
@@ -299,7 +299,7 @@ the attribute is attached.</p>
 <p>The syntax for marking an entity as versioned has not yet been decided, but the
 rest of this document will use syntax #1 described below.</p>
 <div class="section" id="syntax-1-attributes">
-<h2><a class="toc-backref" href="#id11">Syntax #1: Attributes</a><a class="headerlink" href="#syntax-1-attributes" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">Syntax #1: Attributes</a><a class="headerlink" href="#syntax-1-attributes" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span>@available(1.2)
 public func summonDemons()
 
@@ -314,7 +314,7 @@ versioning information, and it may not be obvious what the version number means
 outside the context of <code class="docutils literal"><span class="pre">available</span></code>.</p>
 </div>
 <div class="section" id="syntax-2-version-blocks">
-<h2><a class="toc-backref" href="#id12">Syntax #2: Version Blocks</a><a class="headerlink" href="#syntax-2-version-blocks" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">Syntax #2: Version Blocks</a><a class="headerlink" href="#syntax-2-version-blocks" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span>#version(1.2)
 public func summonDemons()
 
@@ -328,7 +328,7 @@ versioning information, it may make sense to group them together in some way.
 Only certain annotations would support being versioned in this way.</p>
 </div>
 <div class="section" id="syntax-3-the-public-modifier">
-<h2><a class="toc-backref" href="#id13">Syntax #3: The <code class="docutils literal"><span class="pre">public</span></code> modifier</a><a class="headerlink" href="#syntax-3-the-public-modifier" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">Syntax #3: The <code class="docutils literal"><span class="pre">public</span></code> modifier</a><a class="headerlink" href="#syntax-3-the-public-modifier" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">public</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span><span class="w"> </span><span class="kd">func </span><span class="nf">summonDemons</span><span class="p">()</span>
 
 <span class="cm">/* @inlineable ?? */</span>
@@ -346,13 +346,13 @@ could easily use an alternate syntax.)</p>
 </div>
 </div>
 <div class="section" id="supported-evolution">
-<h1><a class="toc-backref" href="#id14">Supported Evolution</a><a class="headerlink" href="#supported-evolution" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id15">Supported Evolution</a><a class="headerlink" href="#supported-evolution" title="Permalink to this headline">¶</a></h1>
 <p>This section describes the various changes that are safe to make when releasing
 a new version of a library, i.e. changes that will not break binary
 compatibility. They are organized by declaration type.</p>
 <p>Anything <em>not</em> listed in this document should be assumed unsafe.</p>
 <div class="section" id="top-level-functions">
-<h2><a class="toc-backref" href="#id15">Top-Level Functions</a><a class="headerlink" href="#top-level-functions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id16">Top-Level Functions</a><a class="headerlink" href="#top-level-functions" title="Permalink to this headline">¶</a></h2>
 <p>A versioned top-level function is fairly restricted in how it can be changed.
 The following changes are permitted:</p>
 <ul class="simple">
@@ -382,7 +382,7 @@ It is not a <a class="reference internal" href="#term-versioned-attribute"><span
 is safe when a client deploys against older versions of the library.</li>
 </ul>
 <div class="section" id="inlineable-functions">
-<h3><a class="toc-backref" href="#id16">Inlineable Functions</a><a class="headerlink" href="#inlineable-functions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Inlineable Functions</a><a class="headerlink" href="#inlineable-functions" title="Permalink to this headline">¶</a></h3>
 <p>Functions are a very common example of resilience: the function&#8217;s declaration
 is published as API, but its body may change between library versions as long
 as it upholds the same semantic contracts. This applies to other function-like
@@ -413,7 +413,7 @@ time they were compiled, or they may use both inconsistently.</p>
 </div>
 </div>
 <div class="section" id="restrictions-on-inlineable-functions">
-<h3><a class="toc-backref" href="#id17">Restrictions on Inlineable Functions</a><a class="headerlink" href="#restrictions-on-inlineable-functions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Restrictions on Inlineable Functions</a><a class="headerlink" href="#restrictions-on-inlineable-functions" title="Permalink to this headline">¶</a></h3>
 <p>Because the body of an inlineable function (or method, accessor, initializer,
 or deinitializer) may be inlined into another module, it must not make any
 assumptions that rely on knowledge of the current module. Here is a trivial
@@ -424,7 +424,7 @@ example using methods:</p>
 }
 
 extension Point2D {
-  @inlineable public func distanceTo(_ other: Point2D) -&gt; Double {
+  @inlineable public func distance(to other: Point2D) -&gt; Double {
     let deltaX = self.x - other.x
     let deltaY = self.y - other.y
     return sqrt(deltaX*deltaX + deltaY*deltaY)
@@ -432,7 +432,7 @@ extension Point2D {
 }
 </pre></div>
 </div>
-<p>As written, this <code class="docutils literal"><span class="pre">distanceTo</span></code> method is not safe to inline. The next release
+<p>As written, this <code class="docutils literal"><span class="pre">distance</span></code> method is not safe to inline. The next release
 of the library could very well replace the implementation of <code class="docutils literal"><span class="pre">Point2D</span></code> with a
 polar representation:</p>
 <div class="highlight-swift"><div class="highlight"><pre><span></span>public struct Point2D {
@@ -441,13 +441,14 @@ polar representation:</p>
 }
 </pre></div>
 </div>
-<p>and the <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> properties have now disappeared. To avoid this, the bodies of inlineable functions have the following restrictions:</p>
+<p>and the <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> properties have now disappeared. To avoid this, the
+bodies of inlineable functions have the following restrictions:</p>
 <ul class="simple">
 <li>They may not define any local types (other than typealiases).</li>
 <li>They must not reference any <code class="docutils literal"><span class="pre">private</span></code> or <code class="docutils literal"><span class="pre">fileprivate</span></code> entities, except
-for those marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> (see below).</li>
+for those marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> (see below).</li>
 <li>They must not reference any <code class="docutils literal"><span class="pre">internal</span></code> entities except for those that have
-been <a class="reference external" href="#versioning-internal-api">versioned</a> and those declared <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>. See below
+been <a class="reference external" href="#versioning-internal-api">versioned</a> and those declared <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>. See below
 for a discussion of versioning internal API.</li>
 <li>They must not reference any entities from the current module introduced
 after the function was made inlineable.</li>
@@ -457,8 +458,8 @@ makes it possible to take an existing function and make it inlineable, as long
 as the current body makes sense when deploying against an earlier version of
 the library.</p>
 </div>
-<div class="section" id="always-emit-into-client">
-<h3><a class="toc-backref" href="#id18"><code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code></a><a class="headerlink" href="#always-emit-into-client" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="alwaysemitintoclient">
+<h3><a class="toc-backref" href="#id19"><code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code></a><a class="headerlink" href="#alwaysemitintoclient" title="Permalink to this headline">¶</a></h3>
 <p>The normal <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> attribute states that a function <em>may</em> be inlined
 into a client binary. There are a few cases where it is worth <em>guaranteeing</em>
 that the function is emitted into the client:</p>
@@ -468,13 +469,13 @@ compiled against.</li>
 <li>The function is a helper for an <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> function, but should not be
 part of the library&#8217;s ABI.</li>
 </ul>
-<p>This is handled by the <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> attribute. If one of these
+<p>This is handled by the <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> attribute. If one of these
 functions is referenced by a client module, its implementation is always copied
-into the client module. <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> functions are subject to
+into the client module. <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> functions are subject to
 the same restrictions as regular <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> functions, as described above.
 The description &#8220;inlineable&#8221; collectively refers to declarations marked with
-<code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and declarations marked with <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>. A
-declaration may not be both <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>.</p>
+<code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and declarations marked with <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>. A
+declaration may not be both <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This is represented by a <code class="docutils literal"><span class="pre">shared</span></code> function in SIL.</p>
@@ -482,52 +483,52 @@ declaration may not be both <code class="docutils literal"><span class="pre">&#6
 <div class="admonition-todo admonition">
 <p class="first admonition-title">TODO</p>
 <p class="last">All of these names are provisional. In particular, It Would Be Nice(tm) if
-the final name for <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> was a variation of the
+the final name for <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> was a variation of the
 final name for <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>.</p>
 </div>
 <p>Any local functions or closures within an inlineable function are themselves
-treated as <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>. This is important in case it is
+treated as <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>. This is important in case it is
 necessary to change the inlineable function later; existing clients should not
 be depending on internal details of the previous implementation.</p>
-<p><code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> is <em>not</em> a versioned attribute, and therefore it
+<p><code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> is <em>not</em> a versioned attribute, and therefore it
 may not be added to a declaration that was versioned in a previous release of a
 library. An existing <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> function may not be changed to an
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> function or vice versa.</p>
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> function or vice versa.</p>
 <p>It is a <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible source-breaking change</span></a> to completely remove a
-public entity marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> from a library. (Non-public,
+public entity marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> from a library. (Non-public,
 non-versioned entities may always be removed from a library; they are not part
 of its API or ABI.)</p>
-<p>Removing <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> from a public entity is also a
+<p>Removing <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> from a public entity is also a
 <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible source-breaking change</span></a>, and requires updating the
-availability of that entity. Removing <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> from a
+availability of that entity. Removing <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> from a
 non-public entity is always permitted.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">As an example, if an API is marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> in version
+<p class="last">As an example, if an API is marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> in version
 1 of a library, and the attribute is removed in version 2, the entity
 itself must be updated to state that it is introduced in version 2. This is
 equivalent to removing the entity and then adding a new one with the same
 name.</p>
 </div>
 <p>Although they are not a supported feature for arbitrary libraries at this time,
-<a class="reference external" href="https://github.com/apple/swift/blob/master/docs/TransparentAttr.rst">transparent</a> functions are implicitly marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>.</p>
+<a class="reference external" href="https://github.com/apple/swift/blob/master/docs/TransparentAttr.rst">transparent</a> functions are implicitly marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Why have both <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>? Because for
+<p class="last">Why have both <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> and <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>? Because for
 a larger function, like <code class="docutils literal"><span class="pre">MutableCollectionType.sort</span></code>, it may be useful to
 provide the body to clients for analysis, but not duplicate code when not
-necessary. <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> also may not be added to an
+necessary. <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> also may not be added to an
 existing versioned declaration.</p>
 </div>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">TODO</p>
-<p class="last">What does it mean for an <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> declaration to
+<p class="last">What does it mean for an <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> declaration to
 satisfy a protocol requirement?</p>
 </div>
 </div>
 <div class="section" id="default-argument-expressions">
-<h3><a class="toc-backref" href="#id19">Default Argument Expressions</a><a class="headerlink" href="#default-argument-expressions" title="Permalink to this headline">¶</a></h3>
-<p>Default argument expressions are implemented as <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>
+<h3><a class="toc-backref" href="#id20">Default Argument Expressions</a><a class="headerlink" href="#default-argument-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Default argument expressions are implemented as <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>
 functions and thus are subject to the same restrictions as inlineable
 functions. A default argument implicitly has the same availability as the
 function it is attached to.</p>
@@ -540,7 +541,7 @@ C++ or C#. We plan to change this.</p>
 </div>
 </div>
 <div class="section" id="top-level-variables-and-constants">
-<h2><a class="toc-backref" href="#id20">Top-Level Variables and Constants</a><a class="headerlink" href="#top-level-variables-and-constants" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">Top-Level Variables and Constants</a><a class="headerlink" href="#top-level-variables-and-constants" title="Permalink to this headline">¶</a></h2>
 <p>Given a versioned module-scope variable declared with <code class="docutils literal"><span class="pre">var</span></code>, the following
 changes are permitted:</p>
 <ul class="simple">
@@ -585,7 +586,7 @@ want to? We would have to come up with syntax for declaring when it
 changed, at least.</p>
 </div>
 <div class="section" id="giving-up-flexibility">
-<h3><a class="toc-backref" href="#id21">Giving Up Flexibility</a><a class="headerlink" href="#giving-up-flexibility" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Giving Up Flexibility</a><a class="headerlink" href="#giving-up-flexibility" title="Permalink to this headline">¶</a></h3>
 <p>Both top-level constants and variables can be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> to allow
 clients to access them more efficiently. This restricts changes a fair amount:</p>
 <ul class="simple">
@@ -613,7 +614,7 @@ syntax, though.</p>
 </div>
 <p>Any inlineable accessors must follow the rules for <a class="reference internal" href="#inlineable-functions">inlineable functions</a>, as
 described above. Top-level computed variables may be marked
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, with the same restrictions as for functions.</p>
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, with the same restrictions as for functions.</p>
 <p>Note that if a constant&#8217;s initial value expression has any observable side
 effects, including the allocation of class instances, it must not be treated
 as inlineable. A constant must always behave as if it is initialized exactly
@@ -626,7 +627,7 @@ restricted to things that can be lowered to compile-time constants?</p>
 </div>
 </div>
 <div class="section" id="structs">
-<h2><a class="toc-backref" href="#id22">Structs</a><a class="headerlink" href="#structs" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">Structs</a><a class="headerlink" href="#structs" title="Permalink to this headline">¶</a></h2>
 <p>Swift structs are a little more flexible than their C counterparts. By default,
 the following changes are permitted:</p>
 <ul class="simple">
@@ -645,7 +646,7 @@ setter.</li>
 layout.</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">TODO</p>
-<p class="last">We need to pin down how this, and the <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> attribute below,
+<p class="last">We need to pin down how this, and the <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> attribute below,
 interacts with the &#8220;Behaviors&#8221; proposal. Behaviors that just change the
 accessors of a property are fine, but those that provide new entry points
 are trickier.</p>
@@ -654,22 +655,22 @@ are trickier.</p>
 or accessor within a struct. These modifiers are not <a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attributes</span></a> and as such there is no safety guarantee for a client
 deploying against an earlier version of the library.</p>
 <div class="section" id="methods-and-initializers">
-<h3><a class="toc-backref" href="#id23">Methods and Initializers</a><a class="headerlink" href="#methods-and-initializers" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Methods and Initializers</a><a class="headerlink" href="#methods-and-initializers" title="Permalink to this headline">¶</a></h3>
 <p>For the most part struct methods and initializers are treated exactly like
 top-level functions. They permit all of the same modifications and can also be
-marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, with the same
+marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, with the same
 restrictions. Inlineable initializers must always delegate to another
 initializer, since new properties may be added between new releases. For the
 same reason, initializers declared outside of the struct&#8217;s module must always
 delegate to another initializer.</p>
 </div>
 <div class="section" id="properties">
-<h3><a class="toc-backref" href="#id24">Properties</a><a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id25">Properties</a><a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
 <p>Struct properties behave largely the same as top-level bindings. They permit
 all of the same modifications, and also allow adding or removing an initial
 value entirely.</p>
 <p>Struct properties can also be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, with the same restrictions as for top-level
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, with the same restrictions as for top-level
 bindings. An inlineable stored property may not become computed, but the offset
 of its storage within the struct is not necessarily fixed.</p>
 <div class="admonition note">
@@ -679,13 +680,13 @@ the start of the struct, sorted by availability, so that the offset <em>could</e
 be fixed. This would have to be balanced against other goals for struct
 layout.</p>
 </div>
-<p>Only computed properties may be marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>.</p>
+<p>Only computed properties may be marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>.</p>
 <p>Like top-level constants, it is <em>not</em> safe to change a <code class="docutils literal"><span class="pre">let</span></code> property into a
 variable or vice versa. Properties declared with <code class="docutils literal"><span class="pre">let</span></code> are assumed not to
 change for the entire lifetime of the program once they have been initialized.</p>
 </div>
 <div class="section" id="subscripts">
-<h3><a class="toc-backref" href="#id25">Subscripts</a><a class="headerlink" href="#subscripts" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Subscripts</a><a class="headerlink" href="#subscripts" title="Permalink to this headline">¶</a></h3>
 <p>Subscripts behave largely the same as properties, except that there are no
 stored subscripts. This means that the following changes are permitted:</p>
 <ul class="simple">
@@ -694,7 +695,7 @@ stored subscripts. This means that the following changes are permitted:</p>
 <li>Changing the body of an accessor.</li>
 </ul>
 <p>Like properties, subscripts can be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, which restricts the set of changes:</p>
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, which restricts the set of changes:</p>
 <ul class="simple">
 <li>Adding a versioned setter is still permitted.</li>
 <li>Adding or removing a non-public, non-versioned setter is still permitted.</li>
@@ -705,7 +706,7 @@ change</span></a>.</li>
 as described above.</p>
 </div>
 <div class="section" id="new-conformances">
-<h3><a class="toc-backref" href="#id26">New Conformances</a><a class="headerlink" href="#new-conformances" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">New Conformances</a><a class="headerlink" href="#new-conformances" title="Permalink to this headline">¶</a></h3>
 <p>If a conformance is added to a type in version 1.1 of a library, it&#8217;s important
 that it isn&#8217;t accessed in version 1.0. This is implied if the protocol itself
 was introduced in version 1.1, but needs special handling if both the protocol
@@ -739,11 +740,11 @@ declare themselves to be either more or less available than what the extension
 provides.</p>
 </div>
 <div class="section" id="fixed-contents-structs">
-<h3><a class="toc-backref" href="#id27">Fixed-Contents Structs</a><a class="headerlink" href="#fixed-contents-structs" title="Permalink to this headline">¶</a></h3>
-<p>To opt out of this flexibility, a struct may be marked <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code>.
+<h3><a class="toc-backref" href="#id28">Fixed-Contents Structs</a><a class="headerlink" href="#fixed-contents-structs" title="Permalink to this headline">¶</a></h3>
+<p>To opt out of this flexibility, a struct may be marked <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code>.
 This promises that no stored properties will be added to or removed from the
 struct, even non-public ones. Additionally, all versioned instance stored
-properties in a <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> struct are implicitly declared
+properties in a <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> struct are implicitly declared
 <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> (as described above for top-level variables). In effect:</p>
 <ul class="simple">
 <li>Reordering all members, including stored properties, is still permitted.</li>
@@ -782,11 +783,11 @@ Internal Declarations</a>).</li>
 its version).</li>
 </ul>
 <p>An initializer of a fixed-contents struct may be declared <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> even if it does not delegate to another
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> even if it does not delegate to another
 initializer, as long as the <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> attribute, or the initializer
-itself, is not introduced earlier than the <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> attribute and
+itself, is not introduced earlier than the <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> attribute and
 the struct has no non-versioned stored properties.</p>
-<p>A <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> struct is <em>not</em> guaranteed to use the same layout as a C
+<p>A <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> struct is <em>not</em> guaranteed to use the same layout as a C
 struct with a similar &#8220;shape&#8221;. If such a struct is necessary, it should be
 defined in a C header and imported into Swift.</p>
 <div class="admonition note">
@@ -797,7 +798,7 @@ things like minimizing member padding.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Hypothetically, we could use a different model where a <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code>
+<p>Hypothetically, we could use a different model where a <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code>
 struct only guarantees the &#8220;shape&#8221; of the struct, so to speak, while
 leaving all property accesses to go through function calls. This would
 allow stored properties to change their accessors, or (with the Behaviors
@@ -806,20 +807,20 @@ behavior to another. However, the <em>most common case</em> here is probably jus
 a simple C-like struct that groups together simple values, with only public
 stored properties and no observing accessors, and having to opt into direct
 access to those properties seems unnecessarily burdensome. The struct is
-being declared <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> for a reason, after all: it&#8217;s been
+being declared <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> for a reason, after all: it&#8217;s been
 discovered that its use is causing performance issues.</p>
 <p class="last">Consequently, as a first pass we may just require all stored properties in
-a <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> struct, public or non-public, to have trivial
+a <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> struct, public or non-public, to have trivial
 accessors, i.e. no observing accessors and no behaviors.</p>
 </div>
-<p><code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> is a <a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attribute</span></a>. This is so that clients can
+<p><code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> is a <a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attribute</span></a>. This is so that clients can
 deploy against older versions of the library, which may have a different layout
 for the struct. (In this case the client must manipulate the struct as if the
-<code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> attribute were absent.)</p>
+<code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> attribute were absent.)</p>
 </div>
 </div>
 <div class="section" id="enums">
-<h2><a class="toc-backref" href="#id28">Enums</a><a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id29">Enums</a><a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
 <p>By default, a library owner may add new cases to a public enum between releases
 without breaking binary compatibility. As with structs, this results in a fair
 amount of indirection when dealing with enum values, in order to potentially
@@ -852,21 +853,21 @@ cases added in future versions of a library.</p>
 <p>Adding or removing the <code class="docutils literal"><span class="pre">&#64;objc</span></code> attribute from an enum is not permitted; this
 affects the enum&#8217;s memory representation and is not backwards-compatible.</p>
 <div class="section" id="initializers">
-<h3><a class="toc-backref" href="#id29">Initializers</a><a class="headerlink" href="#initializers" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">Initializers</a><a class="headerlink" href="#initializers" title="Permalink to this headline">¶</a></h3>
 <p>For the most part enum initializers are treated exactly like top-level
 functions. They permit all of the same modifications and can also be marked
-<code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, with the same restrictions.
+<code class="docutils literal"><span class="pre">&#64;inlineable</span></code> or <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, with the same restrictions.
 Unlike struct initializers, enum initializers do not always need to delegate to
 another initializer, even if they are inlineable or declared in a separate
 module.</p>
 </div>
 <div class="section" id="methods-and-subscripts">
-<h3><a class="toc-backref" href="#id30">Methods and Subscripts</a><a class="headerlink" href="#methods-and-subscripts" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id31">Methods and Subscripts</a><a class="headerlink" href="#methods-and-subscripts" title="Permalink to this headline">¶</a></h3>
 <p>The rules for enum methods and subscripts are identical to those for struct
 members.</p>
 </div>
 <div class="section" id="closed-enums">
-<h3><a class="toc-backref" href="#id31">Closed Enums</a><a class="headerlink" href="#closed-enums" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id32">Closed Enums</a><a class="headerlink" href="#closed-enums" title="Permalink to this headline">¶</a></h3>
 <p>A library owner may opt out of this flexibility by marking a versioned enum as
 <code class="docutils literal"><span class="pre">&#64;closed</span></code>. A &#8220;closed&#8221; enum may not have any cases with less access than the
 enum itself, and may not add new cases in the future. This guarantees to
@@ -906,7 +907,7 @@ down the behavior here.</p>
 </div>
 </div>
 <div class="section" id="protocols">
-<h2><a class="toc-backref" href="#id32">Protocols</a><a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id33">Protocols</a><a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
 <p>There are very few safe changes to make to protocols:</p>
 <ul class="simple">
 <li>A new non-type requirement may be added to a protocol, as long as it has an
@@ -940,7 +941,7 @@ used as the type of a value).</p>
 </div>
 </div>
 <div class="section" id="classes">
-<h2><a class="toc-backref" href="#id33">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id34">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <p>Because class instances are always accessed through references, they are very
 flexible and can change in many ways between releases. Like structs, classes
 support all of the following changes:</p>
@@ -1030,7 +1031,7 @@ details to clients in a bad way. We need to fix this.
 <a class="reference external" href="rdar://problem/20829214">rdar://problem/20829214</a></p>
 </div>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id34">Initializers</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id35">Initializers</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>New designated initializers may not be added to a publicly-subclassable class.
 This would change the inheritance of convenience initializers, which existing
 subclasses may depend on. A publicly-subclassable class also may not change
@@ -1040,11 +1041,11 @@ convenience initializer; that initializer may only call existing <code class="do
 initializers. An existing initializer may not be marked <code class="docutils literal"><span class="pre">required</span></code>.</p>
 <p>All of the modifications permitted for top-level functions are also permitted
 for class initializers. Convenience initializers may be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>
-or <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>, with the same restrictions as top-level
+or <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>, with the same restrictions as top-level
 functions; designated initializers may not.</p>
 </div>
 <div class="section" id="methods">
-<h3><a class="toc-backref" href="#id35">Methods</a><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id36">Methods</a><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
 <p>Both class and instance methods allow all of the modifications permitted for
 top-level functions, but the potential for overrides complicates things a little. They allow the following changes:</p>
 <ul class="simple">
@@ -1064,7 +1065,7 @@ be added to a method without any additional versioning information.</li>
 <p>Class and instance methods may be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>, with the same
 restrictions as struct methods. <code class="docutils literal"><span class="pre">dynamic</span></code> methods may not be marked
 <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>. Only non-overriding <code class="docutils literal"><span class="pre">final</span></code> methods may be marked
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>.</p>
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>.</p>
 <p>If an inlineable method is overridden, the overriding method does not need to
 also be inlineable. Clients may only inline a method when they can devirtualize
 the call. (This does permit speculative devirtualization.)</p>
@@ -1072,7 +1073,7 @@ the call. (This does permit speculative devirtualization.)</p>
 <code class="docutils literal"><span class="pre">&#64;noreturn</span></code>.</p>
 </div>
 <div class="section" id="id3">
-<h3><a class="toc-backref" href="#id36">Properties</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id37">Properties</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Class and instance properties allow <em>most</em> of the modifications permitted for
 struct properties, but the potential for overrides complicates things a little.
 Variable properties (those declared with <code class="docutils literal"><span class="pre">var</span></code>) allow the following changes:</p>
@@ -1098,14 +1099,14 @@ know what to do with the setter and will likely not behave correctly.</p>
 value, as well as adding or removing an initial value entirely.</p>
 <p>Both variable and constant properties (on both instances and classes) may be
 marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>; non-overriding <code class="docutils literal"><span class="pre">final</span></code> computed properties may also
-be marked <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>. This behaves as described for struct
+be marked <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>. This behaves as described for struct
 properties. <code class="docutils literal"><span class="pre">dynamic</span></code> properties may not be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>.</p>
 <p>If an inlineable property is overridden, the overriding property does not need
 to also be inlineable. Clients may only inline a property access when they can
 devirtualize it. (This does permit speculative devirtualization.)</p>
 </div>
 <div class="section" id="id4">
-<h3><a class="toc-backref" href="#id37">Subscripts</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id38">Subscripts</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Subscripts behave much like properties; they inherit the rules of their struct
 counterparts with a few small changes:</p>
 <ul class="simple">
@@ -1119,14 +1120,14 @@ subscript is permitted in a non-publicly-subclassable class.</li>
 know what to do with the setter and will likely not behave correctly.</p>
 <p>Class subscripts may be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>, which behaves as described for
 struct subscripts. Non-overriding <code class="docutils literal"><span class="pre">final</span></code> subscripts may also be marked
-<code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code>. <code class="docutils literal"><span class="pre">dynamic</span></code> subscripts may not be marked
+<code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code>. <code class="docutils literal"><span class="pre">dynamic</span></code> subscripts may not be marked
 <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>.</p>
 <p>If an inlineable subscript is overridden, the overriding subscript does not need
 to also be inlineable. Clients may only inline a subscript access when they can
 devirtualize it. (This does permit speculative devirtualization.)</p>
 </div>
 <div class="section" id="possible-restrictions-on-classes">
-<h3><a class="toc-backref" href="#id38">Possible Restrictions on Classes</a><a class="headerlink" href="#possible-restrictions-on-classes" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id39">Possible Restrictions on Classes</a><a class="headerlink" href="#possible-restrictions-on-classes" title="Permalink to this headline">¶</a></h3>
 <p>In addition to <code class="docutils literal"><span class="pre">final</span></code>, it may be useful to restrict the stored properties of
 a class instance, like <a class="reference internal" href="#fixed-contents-structs">Fixed-Contents Structs</a>. However, there are open
 questions about how this would actually work, and the compiler still wouldn&#8217;t
@@ -1137,7 +1138,7 @@ additive feature, it can be added to the model at any time.</p>
 </div>
 </div>
 <div class="section" id="extensions">
-<h2><a class="toc-backref" href="#id39">Extensions</a><a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id40">Extensions</a><a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h2>
 <p>Non-protocol extensions largely follow the same rules as the types they extend.
 The following changes are permitted:</p>
 <ul class="simple">
@@ -1153,7 +1154,7 @@ implicitly synthesized.</li>
 <p>Adding, removing, reordering, and modifying members follow the same rules as
 the base type; see the sections on structs, enums, and classes above.</p>
 <div class="section" id="protocol-extensions">
-<h3><a class="toc-backref" href="#id40">Protocol Extensions</a><a class="headerlink" href="#protocol-extensions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id41">Protocol Extensions</a><a class="headerlink" href="#protocol-extensions" title="Permalink to this headline">¶</a></h3>
 <p>Protocol extensions follow slightly different rules from other extensions; the
 following changes are permitted:</p>
 <ul class="simple">
@@ -1174,7 +1175,7 @@ overridable, even when the conforming type is a class.</p>
 </div>
 </div>
 <div class="section" id="operators">
-<h2><a class="toc-backref" href="#id41">Operators</a><a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id42">Operators</a><a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
 <p>Operator declarations are entirely compile-time constructs, so changing them
 does not have any affect on binary compatibility. However, they do affect
 <em>source</em> compatibility, so it is recommended that existing operators are not
@@ -1186,7 +1187,7 @@ changed at all except for the following:</p>
 <p>Operator declarations are not versioned.</p>
 </div>
 <div class="section" id="typealiases">
-<h2><a class="toc-backref" href="#id42">Typealiases</a><a class="headerlink" href="#typealiases" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id43">Typealiases</a><a class="headerlink" href="#typealiases" title="Permalink to this headline">¶</a></h2>
 <p>Public typealiases within structs, enums, and protocols may be used for
 protocol conformances (to satisfy associated type requirements), not only
 within the library but within client modules as well. Therefore, changing a
@@ -1201,10 +1202,10 @@ underlying type, and vice versa, at any location in the program.</p>
 <p>Neither top-level nor member typealiases are versioned.</p>
 </div>
 <div class="section" id="a-unifying-theme">
-<h2><a class="toc-backref" href="#id43">A Unifying Theme</a><a class="headerlink" href="#a-unifying-theme" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id44">A Unifying Theme</a><a class="headerlink" href="#a-unifying-theme" title="Permalink to this headline">¶</a></h2>
 <p>So far this document has talked about ways to give up flexibility for several
 different kinds of declarations: <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> for functions,
-<code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> for structs, etc. Each of these has a different set of
+<code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> for structs, etc. Each of these has a different set of
 constraints it enforces on the library author and promises it makes to clients.
 However, they all follow a common theme of giving up the flexibility of future
 changes in exchange for improved performance and perhaps some semantic
@@ -1217,7 +1218,7 @@ multiple kinds of flexibility.</p>
 </div>
 </div>
 <div class="section" id="versioning-internal-declarations">
-<h1><a class="toc-backref" href="#id44">Versioning Internal Declarations</a><a class="headerlink" href="#versioning-internal-declarations" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id45">Versioning Internal Declarations</a><a class="headerlink" href="#versioning-internal-declarations" title="Permalink to this headline">¶</a></h1>
 <p>The initial discussion on versioning focused on <code class="docutils literal"><span class="pre">public</span></code> APIs, making sure
 that a client knows what features they can use when a specific version of a
 library is present. Inlineable functions have much the same constraints, except
@@ -1241,10 +1242,10 @@ the member is marked <code class="docutils literal"><span class="pre">final</spa
 <p>Non-public conformances are never considered versioned, even if both the
 conforming type and the protocol are versioned. A conformance is considered
 public if and only if both the conforming type and protocol are public.</p>
-<p>Non-public entities declared <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> may not be versioned.</p>
+<p>Non-public entities declared <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> may not be versioned.</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">TODO</p>
-<p class="last">...but we do need a way for <code class="docutils literal"><span class="pre">&#64;always_emit_into_client</span></code> functions to
+<p class="last">...but we do need a way for <code class="docutils literal"><span class="pre">&#64;alwaysEmitIntoClient</span></code> functions to
 declare the minimum version of the library they can be used in, right?
 Syntax?</p>
 </div>
@@ -1266,7 +1267,7 @@ removes one of the primary reasons to make something inlineable: to allow
 efficient access to a type while still protecting its invariants.</p>
 </div>
 <div class="section" id="backdating">
-<h1><a class="toc-backref" href="#id45">&#8220;Backdating&#8221;</a><a class="headerlink" href="#backdating" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id46">&#8220;Backdating&#8221;</a><a class="headerlink" href="#backdating" title="Permalink to this headline">¶</a></h1>
 <p><em>Backdating</em> refers to releasing a new version of a library that contains
 changes, but pretending those changes were made in a previous version of the
 library. For example, you might want to release version 1.2 of the &#8220;Magician&#8221;
@@ -1278,7 +1279,7 @@ is clearly not safe: older versions of the library will not expose the entity
 as part of their ABI. What may be less obvious is that the fragility attributes
 likewise are not safe to backdate, even if you know the attributes could have
 been added in the past. To give one example, the presence of <code class="docutils literal"><span class="pre">&#64;closed</span></code> or
-<code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> may affect the layout and calling conventions for an enum
+<code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> may affect the layout and calling conventions for an enum
 or struct.</p>
 <p>As the sole exception, it is safe to backdate <code class="docutils literal"><span class="pre">&#64;inlineable</span></code> on a top-level
 function, a method, a subscript, or a struct or enum initializer. It is not
@@ -1297,7 +1298,7 @@ in the library.</p>
 </div>
 </div>
 <div class="section" id="optimization">
-<h1><a class="toc-backref" href="#id46">Optimization</a><a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id47">Optimization</a><a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
 <p>Allowing a library to evolve inhibits the optimization of client code in
 several ways. For example:</p>
 <ul class="simple">
@@ -1328,7 +1329,7 @@ complicated. Within a client function that requires version 1.5 of a particular
 library, the compiler should be able to take advantage of any fragility
 information (and performance assertions) introduced prior to version 1.5.</p>
 <div class="section" id="inlineable-code">
-<h2><a class="toc-backref" href="#id47">Inlineable Code</a><a class="headerlink" href="#inlineable-code" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id48">Inlineable Code</a><a class="headerlink" href="#inlineable-code" title="Permalink to this headline">¶</a></h2>
 <p>By default, the availability context for a library always includes the latest
 version of the library itself, since that code is always distributed as a unit.
 However, this is not true for functions that have been marked inlineable (see
@@ -1354,7 +1355,7 @@ analysis of the function body may not apply to the version of the function
 currently in the library.</p>
 </div>
 <div class="section" id="local-availability-contexts">
-<h2><a class="toc-backref" href="#id48">Local Availability Contexts</a><a class="headerlink" href="#local-availability-contexts" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id49">Local Availability Contexts</a><a class="headerlink" href="#local-availability-contexts" title="Permalink to this headline">¶</a></h2>
 <p>Swift availability contexts aren&#8217;t just at the declaration level; they also
 cover specific regions of code inside function bodies as well. These &#8220;local&#8221;
 constructs are formed using the <code class="docutils literal"><span class="pre">#available</span></code> construct, which performs a
@@ -1366,16 +1367,17 @@ optimization that may be complicated to implement (and even to represent
 properly in SIL), and so it is not a first priority.</p>
 </div>
 <div class="section" id="other-promises-about-types">
-<h2><a class="toc-backref" href="#id49">Other Promises About Types</a><a class="headerlink" href="#other-promises-about-types" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id50">Other Promises About Types</a><a class="headerlink" href="#other-promises-about-types" title="Permalink to this headline">¶</a></h2>
 <p>Advanced users may want to promise more specific things about various types.
 These are similar to the internal <code class="docutils literal"><span class="pre">effects</span></code> attribute we have for functions,
 except that they can be enforced by the compiler.</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">trivial</span></code>: Promises that assignment just requires a fixed-size bit-for-bit
 copy without any indirection or reference-counting operations.</li>
-<li><code class="docutils literal"><span class="pre">size_in_bits(N)</span></code>: Promises that the type is not larger than a certain
-size. (It may be smaller.)</li>
-<li><code class="docutils literal"><span class="pre">fixed_size</span></code>: Promises that the type has <em>some</em> size known at compile-time,
+<li><code class="docutils literal"><span class="pre">maximumFootprint(sizeInBits:</span> <span class="pre">N,</span> <span class="pre">alignmentInBits:</span> <span class="pre">A)</span></code>: Promises that the
+type&#8217;s size and required alignment are at most N bits and A bits,
+respectively. (Both may be smaller.)</li>
+<li><code class="docutils literal"><span class="pre">fixedSize</span></code>: Promises that the type has <em>some</em> size known at compile-time,
 allowing optimizations like promoting allocations to the stack. Only applies
 to fixed-contents structs and closed enums, which can already infer this
 information; the explicit annotation allows it to be enforced.</li>
@@ -1386,17 +1388,22 @@ level, but do allow for additional optimizations. We may also expose some of
 these qualities to static or dynamic queries for performance-sensitive code.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Previous revisions of this document contained a <code class="docutils literal"><span class="pre">no_payload</span></code>
+<p class="last">Previous revisions of this document contained a <code class="docutils literal"><span class="pre">noPayload</span></code>
 assertion for enums. However, this doesn&#8217;t actually offer any additional
-optimization opportunities over combining <code class="docutils literal"><span class="pre">trivial</span></code> with <code class="docutils literal"><span class="pre">size_in_bits</span></code>,
-and the latter is more flexible.</p>
+optimization opportunities over combining <code class="docutils literal"><span class="pre">trivial</span></code> with
+<code class="docutils literal"><span class="pre">maximumFootprint</span></code>, and the latter is more flexible.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">None of these names / spellings are final. The name &#8220;trivial&#8221; comes
+from C++, though Swift&#8217;s trivial is closer to C++&#8217;s &#8220;<a class="reference external" href="http://en.cppreference.com/w/cpp/types/is_trivially_copyable">trivially copyable</a>&#8221;.</p>
 </div>
 <p>All of these features need to be versioned, just like the more semantic
 fragility attributes above. The exact spelling is not proposed by this document.</p>
 </div>
 </div>
 <div class="section" id="resilience-domains">
-<h1><a class="toc-backref" href="#id50">Resilience Domains</a><a class="headerlink" href="#resilience-domains" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id51">Resilience Domains</a><a class="headerlink" href="#resilience-domains" title="Permalink to this headline">¶</a></h1>
 <p>As described in the <a class="reference internal" href="#introduction">Introduction</a>, the features and considerations discussed
 in this document do not apply to libraries distributed in a bundle with their
 clients. In this case, a client can rely on all the current implementation
@@ -1418,7 +1425,7 @@ resilience domain defaults to the name of the module, but can be overridden. If
 a client has the same resilience domain name as a library it is using, it may
 assume that version of the library will be present at runtime.</p>
 <div class="section" id="deployments">
-<h2><a class="toc-backref" href="#id51">Deployments</a><a class="headerlink" href="#deployments" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id52">Deployments</a><a class="headerlink" href="#deployments" title="Permalink to this headline">¶</a></h2>
 <p>Related to the concept of a resilience domain is a <em>deployment.</em> While a
 resilience domain allows related libraries to be compiled more efficiently,
 a deployment groups related libraries together to present semantic version
@@ -1441,7 +1448,7 @@ earliest version of the deployment that is supported.</p>
 </div>
 </div>
 <div class="section" id="checking-binary-compatibility">
-<h1><a class="toc-backref" href="#id52">Checking Binary Compatibility</a><a class="headerlink" href="#checking-binary-compatibility" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id53">Checking Binary Compatibility</a><a class="headerlink" href="#checking-binary-compatibility" title="Permalink to this headline">¶</a></h1>
 <p>With this many manual controls, it&#8217;s important that library owners be able to
 check their work. Therefore, we intend to build a tool that can compare two
 versions of a library&#8217;s public interface, and present any suspect differences
@@ -1452,13 +1459,13 @@ for verification. Important cases include but are not limited to:</p>
 conformances lacking versioning information.</li>
 <li>Unsafe <a class="reference external" href="#backdating">backdating</a>.</li>
 <li>Unsafe modifications to entities marked with fragility attributes, such as
-adding a stored property to a <code class="docutils literal"><span class="pre">&#64;fixed_contents</span></code> struct.</li>
+adding a stored property to a <code class="docutils literal"><span class="pre">&#64;fixedContents</span></code> struct.</li>
 </ul>
 <p>Wherever possible, this tool should also check for <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible
 source-breaking changes</span></a>, such as
 changing a default argument from <code class="docutils literal"><span class="pre">false</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <div class="section" id="automatic-versioning">
-<h2><a class="toc-backref" href="#id53">Automatic Versioning</a><a class="headerlink" href="#automatic-versioning" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id54">Automatic Versioning</a><a class="headerlink" href="#automatic-versioning" title="Permalink to this headline">¶</a></h2>
 <p>A possible extension of this &#8220;checker&#8221; would be a tool that <em>automatically</em>
 generates versioning information for entities in a library, given the previous
 public interface of the library. This would remove the need for versions on any
@@ -1487,13 +1494,13 @@ part of this initial model. It is something we may decide to add in the future.<
 </div>
 </div>
 <div class="section" id="open-issues">
-<h1><a class="toc-backref" href="#id54">Open Issues</a><a class="headerlink" href="#open-issues" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id55">Open Issues</a><a class="headerlink" href="#open-issues" title="Permalink to this headline">¶</a></h1>
 <p>There are still a number of known issues with the model described in this
 document. We should endeavour to account for each of them, and if we can&#8217;t come
 up with a satisfactory implementation we should at least make sure that they
 will not turn into pitfalls for library or client developers.</p>
 <div class="section" id="subclass-and-base-both-conform-to-protocol">
-<h2><a class="toc-backref" href="#id55">Subclass and base both conform to protocol</a><a class="headerlink" href="#subclass-and-base-both-conform-to-protocol" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id56">Subclass and base both conform to protocol</a><a class="headerlink" href="#subclass-and-base-both-conform-to-protocol" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Library, version 1</span>
 <span class="kd">class </span><span class="nc">Elf</span><span class="w"> </span><span class="p">{}</span>
 <span class="kd">protocol </span><span class="nc">Summonable</span><span class="w"> </span><span class="p">{}</span>
@@ -1521,7 +1528,7 @@ typealias is not a safe change).</p>
 publicly-subclassable class.</p>
 </div>
 <div class="section" id="recompiling-changes-a-protocol-s-implementation">
-<h2><a class="toc-backref" href="#id56">Recompiling changes a protocol&#8217;s implementation</a><a class="headerlink" href="#recompiling-changes-a-protocol-s-implementation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id57">Recompiling changes a protocol&#8217;s implementation</a><a class="headerlink" href="#recompiling-changes-a-protocol-s-implementation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Library, version 1</span>
 <span class="kd">protocol </span><span class="nc">MagicType</span><span class="w"> </span><span class="p">{}</span>
 <span class="kd">protocol </span><span class="nc">Wearable</span><span class="w"> </span><span class="p">{}</span>
@@ -1567,7 +1574,7 @@ possible default implementation for a given type.)</p>
 </div>
 </div>
 <div class="section" id="summary">
-<h1><a class="toc-backref" href="#id57">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id58">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
 <p>When possible, Swift gives library authors freedom to evolve their code
 without breaking binary compatibility. This has implications for both the
 semantics and performance of client code, and so library owners also have tools
@@ -1576,7 +1583,7 @@ that client code will never accidentally introduce implicit dependencies on
 specific versions of libraries.</p>
 </div>
 <div class="section" id="related-proposals">
-<h1><a class="toc-backref" href="#id58">Related Proposals</a><a class="headerlink" href="#related-proposals" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id59">Related Proposals</a><a class="headerlink" href="#related-proposals" title="Permalink to this headline">¶</a></h1>
 <p>The following proposals (some currently in the process, some planned) will
 affect the model described in this document, or concern the parts of this
 document that affect language semantics:</p>
@@ -1600,7 +1607,7 @@ document that affect language semantics:</p>
 acceptance or rejection will affect this document.</p>
 </div>
 <div class="section" id="glossary">
-<h1><a class="toc-backref" href="#id59">Glossary</a><a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id60">Glossary</a><a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
 <dl class="glossary docutils">
 <dt id="term-abi">ABI</dt>
 <dd>The runtime contract for using a particular API (or for an entire library),
@@ -1684,7 +1691,7 @@ Xcode.</dd>
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Apple Inc.
-      Last updated on 2016-06-20.
+      Last updated on 2016-06-22.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
     </div>
   </body>
