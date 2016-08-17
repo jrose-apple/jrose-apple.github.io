@@ -40,7 +40,7 @@
 </tbody>
 </table>
 
-<p>[<strong>This is a snapshot of <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst">docs/LibraryEvolution.rst</a> in the Swift repository.</strong> Last updated 2016-06-22.]</p>
+<p>[<strong>This is a snapshot of <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst">docs/LibraryEvolution.rst</a> in the Swift repository.</strong> Last updated 2016-08-16.]</p>
 
 <p>One of Swift&#8217;s primary design goals is to allow efficient execution of code
 without sacrificing load-time abstraction of implementation.</p>
@@ -221,17 +221,17 @@ availability checks. This means that any client entities that rely on certain
 APIs from a library must themselves be restricted to contexts in which those
 APIs are available. This is accomplished using the <code class="docutils literal"><span class="pre">&#64;available</span></code> attribute, by
 specifying the name of the client library along with the required version:</p>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>// Client code
-@available(Magician 1.5)
-class CrystalBallView : MagicView { … }
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Client code</span>
+<span class="n">@available</span><span class="p">(</span><span class="n">Magician</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span>
+<span class="kd">class </span><span class="nc">CrystalBallView</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">MagicView</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/*…*/</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Library versions can also be checked dynamically using <code class="docutils literal"><span class="pre">#available</span></code>, allowing
 for fallback behavior when the requested library version is not present:</p>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="kd">func </span><span class="nf">scareMySiblings</span><span class="p">() {</span>
-<span class="w">  </span><span class="kr">if </span><span class="p">#</span><span class="n">available</span><span class="p">(</span><span class="n">Magician</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">if</span><span class="w"> </span><span class="p">#</span><span class="n">available</span><span class="p">(</span><span class="n">Magician</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">summonDemons</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="kr">else </span><span class="p">{</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;BOO!!&quot;</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -264,7 +264,7 @@ document.</p>
 </div>
 <div class="section" id="publishing-versioned-api">
 <h1><a class="toc-backref" href="#id11">Publishing Versioned API</a><a class="headerlink" href="#publishing-versioned-api" title="Permalink to this headline">¶</a></h1>
-<p>A library&#8217;s API is already marked with the <code class="docutils literal"><span class="pre">public</span></code> attribute, but if a
+<p>A library&#8217;s API is already marked with the <code class="docutils literal"><span class="pre">public</span></code> modifier, but if a
 client wants to work with multiple releases of the library, the API needs
 versioning information as well. A <em>versioned entity</em> represents anything with a
 runtime presence that a client may rely on; its version records when the entity
@@ -279,9 +279,11 @@ a declaration in Swift, because a client may depend on them.
 See <a class="reference internal" href="#new-conformances">New Conformances</a>, below.</li>
 </ul>
 <p>In a versioned library, any top-level public entity from the list above may not
-be made <code class="docutils literal"><span class="pre">public</span></code> without an appropriate version. A public entity declared
-within a versioned type (or an extension of a versioned type) will default to
-having the same version as the type.</p>
+be made <code class="docutils literal"><span class="pre">public</span></code> (or <code class="docutils literal"><span class="pre">open</span></code>) without an appropriate version. A public
+entity declared within a versioned type (or an extension of a versioned type)
+will default to having the same version as the type.</p>
+<p>In this document, the term &#8220;public&#8221; includes classes and members marked
+<code class="docutils literal"><span class="pre">open</span></code>.</p>
 <p>Code within a library may generally use all other entities declared within the
 library (barring their own availability checks), since the entire library is
 shipped as a unit. That is, even if a particular API was introduced in v1.0,
@@ -300,11 +302,11 @@ the attribute is attached.</p>
 rest of this document will use syntax #1 described below.</p>
 <div class="section" id="syntax-1-attributes">
 <h2><a class="toc-backref" href="#id12">Syntax #1: Attributes</a><a class="headerlink" href="#syntax-1-attributes" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>@available(1.2)
-public func summonDemons()
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">@available</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="kd">public func </span><span class="nf">summonDemons</span><span class="p">()</span>
 
-@available(1.0) @inlineable(1.2)
-public func summonElves()
+<span class="n">@available</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="n">@inlineable</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="kd">public func </span><span class="nf">summonElves</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Using the same attribute for both publishing and using versioned APIs helps tie
@@ -315,12 +317,12 @@ outside the context of <code class="docutils literal"><span class="pre">availabl
 </div>
 <div class="section" id="syntax-2-version-blocks">
 <h2><a class="toc-backref" href="#id13">Syntax #2: Version Blocks</a><a class="headerlink" href="#syntax-2-version-blocks" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>#version(1.2)
-public func summonDemons()
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="p">#</span><span class="n">version</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="kd">public func </span><span class="nf">summonDemons</span><span class="p">()</span>
 
-#version(1.0) {}
-#version(1.2) { @inlineable }
-public func summonElves()
+<span class="p">#</span><span class="n">version</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">#</span><span class="n">version</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">@inlineable</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">public func </span><span class="nf">summonElves</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Since there are potentially many annotations on a declaration that need
@@ -363,8 +365,6 @@ body, not the labels that are part of the function&#8217;s full name).</li>
 <li>Adding a default argument expression to a parameter.</li>
 <li>Changing or removing a default argument is a <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible
 source-breaking change</span></a>.</li>
-<li>The <code class="docutils literal"><span class="pre">&#64;noreturn</span></code> attribute may be added to a function. <code class="docutils literal"><span class="pre">&#64;noreturn</span></code> is a
-<a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attribute</span></a>.</li>
 <li>The <code class="docutils literal"><span class="pre">&#64;discardableResult</span></code> and <code class="docutils literal"><span class="pre">&#64;warn_unqualified_access</span></code> attributes may
 be added to a function without any additional versioning information.</li>
 </ul>
@@ -376,7 +376,6 @@ be added to a function without any additional versioning information.</li>
 <li>A versioned function may not add, remove, or reorder parameters, whether or
 not they have default arguments.</li>
 <li>A versioned function that throws may not become non-throwing or vice versa.</li>
-<li><code class="docutils literal"><span class="pre">&#64;noreturn</span></code> may not be removed from a function.</li>
 <li>The <code class="docutils literal"><span class="pre">&#64;noescape</span></code> attribute may not be added to or removed from a parameter.
 It is not a <a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attribute</span></a> and so there is no way to guarantee that it
 is safe when a client deploys against older versions of the library.</li>
@@ -418,27 +417,27 @@ time they were compiled, or they may use both inconsistently.</p>
 or deinitializer) may be inlined into another module, it must not make any
 assumptions that rely on knowledge of the current module. Here is a trivial
 example using methods:</p>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>public struct Point2D {
-  var x, y: Double
-  public init(x: Double, y: Double) { … }
-}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">public</span><span class="w"> </span><span class="kd">struct </span><span class="nc">Point2D</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">var</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span>
+<span class="w">  </span><span class="n">public</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/*…*/</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 
-extension Point2D {
-  @inlineable public func distance(to other: Point2D) -&gt; Double {
-    let deltaX = self.x - other.x
-    let deltaY = self.y - other.y
-    return sqrt(deltaX*deltaX + deltaY*deltaY)
-  }
-}
+<span class="kd">extension </span><span class="nc">Point2D</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">@inlineable</span><span class="w"> </span><span class="kd">public func </span><span class="nf">distance</span><span class="p">(</span><span class="n">to</span><span class="w"> </span><span class="n">other</span><span class="p">:</span><span class="w"> </span><span class="no">Point2D</span><span class="p">)</span><span class="o"> -&gt; </span><span class="no">Double</span><span class="p"> {</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">deltaX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">x</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">deltaY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">y</span>
+<span class="w">    </span><span class="n">return</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">deltaX</span><span class="o">*</span><span class="n">deltaX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deltaY</span><span class="o">*</span><span class="n">deltaY</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>As written, this <code class="docutils literal"><span class="pre">distance</span></code> method is not safe to inline. The next release
 of the library could very well replace the implementation of <code class="docutils literal"><span class="pre">Point2D</span></code> with a
 polar representation:</p>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>public struct Point2D {
-  var r, theta: Double
-  public init(x: Double, y: Double) { … }
-}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">public</span><span class="w"> </span><span class="kd">struct </span><span class="nc">Point2D</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">var</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">theta</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span>
+<span class="w">  </span><span class="n">public</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="n">Double</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/*…*/</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>and the <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> properties have now disappeared. To avoid this, the
@@ -722,12 +721,12 @@ version 1.0 of the library, and so whether or not the client code will work
 is dependent on what should be implementation details of the library.</p>
 </div>
 <p>We&#8217;ve considered two possible syntaxes for this:</p>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>@available(1.1)
-extension Wand : MagicType {…}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">@available</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="kd">extension </span><span class="nc">Wand</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="w"> </span><span class="p">{</span><span class="cm">/*…*/</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>and</p>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>extension Wand : @available(1.1) MagicType {…}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="kd">extension </span><span class="nc">Wand</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nn">@available</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w"> </span><span class="nn">MagicType</span><span class="w"> </span><span class="p">{</span><span class="cm">/*…*/</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>The former requires fewer changes to the language grammar, but the latter could
@@ -960,16 +959,17 @@ setter.</li>
 little more restrictive than structs; they only allow the following changes:</p>
 <ul class="simple">
 <li>Adding a new convenience initializer.</li>
-<li>Adding a new designated initializer, if the class is not publicly
-subclassable.</li>
+<li>Adding a new designated initializer, if the class is not <code class="docutils literal"><span class="pre">open</span></code>.</li>
 <li>Adding a deinitializer.</li>
 <li>Adding new, non-overriding method, subscript, or property.</li>
-<li>Adding a new overriding member, though if the class is publicly-subclassable
-the type of the member may not deviate from the member it overrides.
-Changing the type could be incompatible with existing overrides in subclasses.</li>
+<li>Adding a new overriding member, though if the class is <code class="docutils literal"><span class="pre">open</span></code> the type of
+the member may not deviate from the member it overrides. Changing the type
+could be incompatible with existing overrides in subclasses.</li>
 </ul>
 <p>Finally, classes allow the following changes that do not apply to structs:</p>
 <ul class="simple">
+<li>A class may be marked <code class="docutils literal"><span class="pre">open</span></code> if it is not already marked <code class="docutils literal"><span class="pre">final</span></code>.</li>
+<li>A class may be marked <code class="docutils literal"><span class="pre">final</span></code> if it is not already marked <code class="docutils literal"><span class="pre">open</span></code>.</li>
 <li>Removing an explicit deinitializer. (A class with no declared deinitializer
 effectively has an implicit deinitializer.)</li>
 <li>&#8220;Moving&#8221; a method, subscript, or property up to its superclass. The
@@ -980,8 +980,10 @@ implementation.</li>
 removed as long as the generic parameters, formal parameters, and return type
 <em>exactly</em> match the overridden declaration. Any existing callers should
 automatically use the superclass implementation.</li>
-<li><code class="docutils literal"><span class="pre">&#64;noreturn</span></code> may be only added to a method if it is not publicly
-overridable.</li>
+<li>Within an <code class="docutils literal"><span class="pre">open</span></code> class, any public method, subscript, or property may be
+marked <code class="docutils literal"><span class="pre">open</span></code> if it is not already marked <code class="docutils literal"><span class="pre">final</span></code>.</li>
+<li>Any public method, subscript, or property may be marked <code class="docutils literal"><span class="pre">final</span></code> if it is not
+already marked <code class="docutils literal"><span class="pre">open</span></code>.</li>
 <li><code class="docutils literal"><span class="pre">&#64;IBOutlet</span></code>, <code class="docutils literal"><span class="pre">&#64;IBAction</span></code>, and <code class="docutils literal"><span class="pre">&#64;IBInspectable</span></code> may be added to a member
 without providing any extra version information. Removing any of these is
 a <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible source-breaking change</span></a> if the member remains <code class="docutils literal"><span class="pre">&#64;objc</span></code>,
@@ -1004,12 +1006,19 @@ If a client app was deploying to an earlier version of the OS, would
 NSCollectionViewItem be a subclass of NSResponder or not? How would the
 compiler be able to enforce this?</p>
 </div>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">TODO</p>
+<p class="last">Both <code class="docutils literal"><span class="pre">final</span></code> and <code class="docutils literal"><span class="pre">open</span></code> may be applied to a declaration after it has
+been made public. However, these need to be treated as
+<a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attributes</span></a>. It&#8217;s not clear what syntax
+should be used for this.</p>
+</div>
 <p>Other than those detailed above, no other changes to a class or its members
 are permitted. In particular:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">final</span></code> may not be added to <em>or</em> removed from a class or any of its members.
-The presence of <code class="docutils literal"><span class="pre">final</span></code> enables optimization; its absence means there may
-be subclasses/overrides that would be broken by the change.</li>
+<li><code class="docutils literal"><span class="pre">open</span></code> may not be removed from a class or its members.</li>
+<li><code class="docutils literal"><span class="pre">final</span></code> may not be removed from a class or its members. (The presence of
+<code class="docutils literal"><span class="pre">final</span></code> enables optimization.)</li>
 <li><code class="docutils literal"><span class="pre">dynamic</span></code> may not be added to <em>or</em> removed from any members. Existing
 clients would not know to invoke the member dynamically.</li>
 <li>A <code class="docutils literal"><span class="pre">final</span></code> override of a member may <em>not</em> be removed, even if the type
@@ -1019,11 +1028,6 @@ implementation instead of using dynamic dispatch.</li>
 any existing members.</li>
 <li><code class="docutils literal"><span class="pre">&#64;NSManaged</span></code> may not be added to or removed from any existing members.</li>
 </ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">These restrictions tie in with the ongoing discussions about
-&#8220;<code class="docutils literal"><span class="pre">final</span></code>-by-default&#8221; and &#8220;non-publicly-subclassable-by-default&#8221;.</p>
-</div>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">TODO</p>
 <p class="last">The <code class="docutils literal"><span class="pre">&#64;NSManaged</span></code> attribute as it is in Swift 2 exposes implementation
@@ -1032,10 +1036,10 @@ details to clients in a bad way. We need to fix this.
 </div>
 <div class="section" id="id2">
 <h3><a class="toc-backref" href="#id35">Initializers</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>New designated initializers may not be added to a publicly-subclassable class.
-This would change the inheritance of convenience initializers, which existing
-subclasses may depend on. A publicly-subclassable class also may not change
-a convenience initializer into a designated initializer or vice versa.</p>
+<p>New designated initializers may not be added to an <code class="docutils literal"><span class="pre">open</span></code> class. This would
+change the inheritance of convenience initializers, which existing subclasses
+may depend on. An <code class="docutils literal"><span class="pre">open</span></code> class also may not change a convenience initializer
+into a designated initializer or vice versa.</p>
 <p>A new <code class="docutils literal"><span class="pre">required</span></code> initializer may be added to a class only if it is a
 convenience initializer; that initializer may only call existing <code class="docutils literal"><span class="pre">required</span></code>
 initializers. An existing initializer may not be marked <code class="docutils literal"><span class="pre">required</span></code>.</p>
@@ -1056,9 +1060,6 @@ body, not the labels that are part of the method&#8217;s full name).</li>
 <li>Adding a default argument expression to a parameter.</li>
 <li>Changing or removing a default argument is a <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible
 source-breaking change</span></a>.</li>
-<li>The <code class="docutils literal"><span class="pre">&#64;noreturn</span></code> attribute may be added to a public method only if it is
-<code class="docutils literal"><span class="pre">final</span></code> or the class is not publicly subclassable. <code class="docutils literal"><span class="pre">&#64;noreturn</span></code> is a
-<a class="reference internal" href="#term-versioned-attribute"><span class="xref std std-term">versioned attribute</span></a>.</li>
 <li>The <code class="docutils literal"><span class="pre">&#64;discardableResult</span></code> and <code class="docutils literal"><span class="pre">&#64;warn_unqualified_access</span></code> attributes may
 be added to a method without any additional versioning information.</li>
 </ul>
@@ -1069,8 +1070,6 @@ restrictions as struct methods. <code class="docutils literal"><span class="pre"
 <p>If an inlineable method is overridden, the overriding method does not need to
 also be inlineable. Clients may only inline a method when they can devirtualize
 the call. (This does permit speculative devirtualization.)</p>
-<p>Any method that overrides a <code class="docutils literal"><span class="pre">&#64;noreturn</span></code> method must also be marked
-<code class="docutils literal"><span class="pre">&#64;noreturn</span></code>.</p>
 </div>
 <div class="section" id="id3">
 <h3><a class="toc-backref" href="#id37">Properties</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -1078,8 +1077,7 @@ the call. (This does permit speculative devirtualization.)</p>
 struct properties, but the potential for overrides complicates things a little.
 Variable properties (those declared with <code class="docutils literal"><span class="pre">var</span></code>) allow the following changes:</p>
 <ul class="simple">
-<li>Adding (but not removing) a computed setter to a <code class="docutils literal"><span class="pre">final</span></code> property or a
-property in a non-publicly-subclassable class.</li>
+<li>Adding (but not removing) a computed setter to a non-<code class="docutils literal"><span class="pre">open</span></code> property.</li>
 <li>Adding or removing a non-public, non-versioned setter.</li>
 <li>Changing from a stored property to a computed property, or vice versa, as
 long as a previously versioned setter is not removed.</li>
@@ -1092,7 +1090,7 @@ setter.</li>
 <li>Adding or removing <code class="docutils literal"><span class="pre">unowned</span></code> from a variable.</li>
 <li>Adding or removing <code class="docutils literal"><span class="pre">&#64;NSCopying</span></code> to/from a variable.</li>
 </ul>
-<p>Adding a public setter to a computed property that may be overridden is a
+<p>Adding a public setter to an <code class="docutils literal"><span class="pre">open</span></code> property is a
 <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible source-breaking change</span></a>; any existing overrides will not
 know what to do with the setter and will likely not behave correctly.</p>
 <p>Constant properties (those declared with <code class="docutils literal"><span class="pre">let</span></code>) still permit changing their
@@ -1110,12 +1108,12 @@ devirtualize it. (This does permit speculative devirtualization.)</p>
 <p>Subscripts behave much like properties; they inherit the rules of their struct
 counterparts with a few small changes:</p>
 <ul class="simple">
-<li>Adding (but not removing) a public setter to a <code class="docutils literal"><span class="pre">final</span></code> subscript or a
-subscript is permitted in a non-publicly-subclassable class.</li>
+<li>Adding (but not removing) a public setter to a non-<code class="docutils literal"><span class="pre">open</span></code> subscript is
+permitted.</li>
 <li>Adding or removing a non-public, non-versioned setter is permitted.</li>
 <li>Changing the body of an accessor is permitted.</li>
 </ul>
-<p>Adding a public setter to a subscript that may be overridden is a
+<p>Adding a public setter to an <code class="docutils literal"><span class="pre">open</span></code> subscript is a
 <a class="reference internal" href="#term-binary-compatible-source-breaking-change"><span class="xref std std-term">binary-compatible source-breaking change</span></a>; any existing overrides will not
 know what to do with the setter and will likely not behave correctly.</p>
 <p>Class subscripts may be marked <code class="docutils literal"><span class="pre">&#64;inlineable</span></code>, which behaves as described for
@@ -1219,26 +1217,26 @@ multiple kinds of flexibility.</p>
 </div>
 <div class="section" id="versioning-internal-declarations">
 <h1><a class="toc-backref" href="#id45">Versioning Internal Declarations</a><a class="headerlink" href="#versioning-internal-declarations" title="Permalink to this headline">¶</a></h1>
-<p>The initial discussion on versioning focused on <code class="docutils literal"><span class="pre">public</span></code> APIs, making sure
+<p>The initial discussion on versioning focused on public APIs, making sure
 that a client knows what features they can use when a specific version of a
 library is present. Inlineable functions have much the same constraints, except
 the inlineable function is the client and the entities being used may not be
-<code class="docutils literal"><span class="pre">public</span></code>.</p>
+public.</p>
 <p>Adding a versioning annotation to an <code class="docutils literal"><span class="pre">internal</span></code> entity promises that the
 entity will be available at link time in the containing module&#8217;s binary. This
 makes it safe to refer to such an entity from an inlineable function. If the
-entity is ever made <code class="docutils literal"><span class="pre">public</span></code>, its availability should not be changed; not
-only is it safe for new clients to rely on it, but <em>existing</em> clients require
-its presence as well.</p>
+entity is ever made <code class="docutils literal"><span class="pre">public</span></code> or <code class="docutils literal"><span class="pre">open</span></code>, its availability should not be
+changed; not only is it safe for new clients to rely on it, but <em>existing</em>
+clients require its presence as well.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Why isn&#8217;t this a special form of <code class="docutils literal"><span class="pre">public</span></code>? Because we don&#8217;t want it to
 imply everything that <code class="docutils literal"><span class="pre">public</span></code> does, such as requiring overrides to be
 <code class="docutils literal"><span class="pre">public</span></code>.</p>
 </div>
-<p>Because a versioned class member may eventually be made <code class="docutils literal"><span class="pre">public</span></code>, it must be
-assumed that new overrides may eventually appear from outside the module unless
-the member is marked <code class="docutils literal"><span class="pre">final</span></code> or the class is not publicly subclassable.</p>
+<p>Because a versioned class member may eventually be made <code class="docutils literal"><span class="pre">open</span></code>, it must be
+assumed that new overrides may eventually appear from outside the module if the
+class is marked <code class="docutils literal"><span class="pre">open</span></code> unless the member is marked <code class="docutils literal"><span class="pre">final</span></code>.</p>
 <p>Non-public conformances are never considered versioned, even if both the
 conforming type and the protocol are versioned. A conformance is considered
 public if and only if both the conforming type and protocol are public.</p>
@@ -1506,13 +1504,13 @@ will not turn into pitfalls for library or client developers.</p>
 <span class="kd">protocol </span><span class="nc">Summonable</span><span class="w"> </span><span class="p">{}</span>
 </pre></div>
 </div>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>// Client, version 1
-class ShoemakingElf : Elf, Summonable {}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Client, version 1</span>
+<span class="kd">class </span><span class="nc">ShoemakingElf</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">Elf</span><span class="p">,</span><span class="w"> </span><span class="no">Summonable</span><span class="w"> </span><span class="p">{}</span>
 </pre></div>
 </div>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>// Library, version 2
-@available(2.0)
-extension Elf : Summonable {}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Library, version 2</span>
+<span class="n">@available</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="kd">extension </span><span class="nc">Elf</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">Summonable</span><span class="w"> </span><span class="p">{}</span>
 </pre></div>
 </div>
 <p>Now <code class="docutils literal"><span class="pre">ShoemakingElf</span></code> conforms to <code class="docutils literal"><span class="pre">Summonable</span></code> in two different ways, which
@@ -1524,34 +1522,34 @@ it. We could fix that with an annotation to explicitly inherent the conformance
 of <code class="docutils literal"><span class="pre">Summonable</span></code> from the base class, but even that may not be possible if
 there are incompatible associated types involved (because changing a member
 typealias is not a safe change).</p>
-<p>One solution is to disallow adding a conformance for an existing protocol to a
-publicly-subclassable class.</p>
+<p>One solution is to disallow adding a conformance for an existing protocol to an
+<code class="docutils literal"><span class="pre">open</span></code> class.</p>
 </div>
 <div class="section" id="recompiling-changes-a-protocol-s-implementation">
 <h2><a class="toc-backref" href="#id57">Recompiling changes a protocol&#8217;s implementation</a><a class="headerlink" href="#recompiling-changes-a-protocol-s-implementation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Library, version 1</span>
 <span class="kd">protocol </span><span class="nc">MagicType</span><span class="w"> </span><span class="p">{}</span>
 <span class="kd">protocol </span><span class="nc">Wearable</span><span class="w"> </span><span class="p">{}</span>
-<span class="kd">func </span><span class="nf">use</span><span class="p">&lt;</span><span class="no">T</span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="p">&gt;(</span><span class="n">_</span><span class="w"> </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">) {}</span>
+<span class="kd">func </span><span class="nf">use</span><span class="p">&lt;</span><span class="no">T</span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="p">&gt;(</span><span class="n">_</span><span class="w"> </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="no">T</span><span class="p">) {}</span>
 </pre></div>
 </div>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>// Client, version 1
-struct Amulet : MagicType, Wearable {}
-use(Amulet())
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Client, version 1</span>
+<span class="kd">struct </span><span class="nc">Amulet</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="p">,</span><span class="w"> </span><span class="no">Wearable</span><span class="w"> </span><span class="p">{}</span>
+<span class="n">use</span><span class="p">(</span><span class="n">Amulet</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-swift"><div class="highlight"><pre><span></span>// Library, version 2
-protocol MagicType {
-  @available(2.0)
-  func equip() { print(&quot;Equipped.&quot;) }
-}
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="c1">// Library, version 2</span>
+<span class="kd">protocol </span><span class="nc">MagicType</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">@available</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">func </span><span class="nf">equip</span><span class="p">() {</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Equipped.&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 
-extension Wearable where Self: MagicType {
-  @available(2.0)
-  func equip() { print(&quot;You put it on.&quot;) }
-}
+<span class="kd">extension </span><span class="nc">Wearable</span><span class="w"> </span><span class="nc">where</span><span class="w"> </span><span class="nc">Self</span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">@available</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">func </span><span class="nf">equip</span><span class="p">() {</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;You put it on.&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 
-func use&lt;T: MagicType&gt;(_ item: T) { item.equip() }
+<span class="kd">func </span><span class="nf">use</span><span class="p">&lt;</span><span class="no">T</span><span class="p">:</span><span class="w"> </span><span class="no">MagicType</span><span class="p">&gt;(</span><span class="n">_</span><span class="w"> </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="no">T</span><span class="p">) {</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">equip</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Before the client is recompiled, the implementation of <code class="docutils literal"><span class="pre">equip()</span></code> used for
@@ -1590,11 +1588,12 @@ document that affect language semantics:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/apple/swift-evolution/blob/master/proposals/0030-property-behavior-decls.md">SE-0030 Property Behaviors</a></li>
 <li>(draft) <a class="reference external" href="https://github.com/jrose-apple/swift-evolution/blob/overridable-members-in-extensions/proposals/nnnn-overridable-members-in-extensions.md">Overridable methods in extensions</a></li>
-<li>(planned) Making classes &#8220;sealed&#8221; by default</li>
+<li><a class="reference external" href="SE-0117">SE-0117 Allow Allow distinguishing between public access and public overridability</a></li>
 <li>(planned) Restricting retroactive modeling (protocol conformances for types you don&#8217;t own)</li>
 <li>(planned) Default implementations in protocols</li>
-<li>(planned) Generalized existentials (values of protocol type)</li>
+<li>(planned) <a class="reference external" href="Generics">Generalized existentials (values of protocol type)</a></li>
 <li>(planned) Open and closed enums</li>
+<li>(planned) Removing the &#8220;constant&#8221; guarantee for &#8216;let&#8217; across module boundaries</li>
 <li>(planned) Syntax for declaring &#8220;versioned&#8221; entities and their features</li>
 <li>(planned) Syntax for declaring inlineable code</li>
 <li>(planned) Syntax for declaring fixed-contents structs</li>
@@ -1616,7 +1615,7 @@ information. Stands for &#8220;Application Binary Interface&#8221;.</dd>
 <dt id="term-api">API</dt>
 <dd>An <a class="reference internal" href="#term-entity"><span class="xref std std-term">entity</span></a> in a library that a <a class="reference internal" href="#term-client"><span class="xref std std-term">client</span></a> may use, or the collection of all
 such entities in a library. (If contrasting with <a class="reference internal" href="#term-spi"><span class="xref std std-term">SPI</span></a>, only those entities
-that are available to arbitrary clients.) Marked <code class="docutils literal"><span class="pre">public</span></code> in
+that are available to arbitrary clients.) Marked <code class="docutils literal"><span class="pre">public</span></code> or <code class="docutils literal"><span class="pre">open</span></code> in
 Swift. Stands for &#8220;Application Programming Interface&#8221;.</dd>
 <dt id="term-availability-context">availability context</dt>
 <dd>The collection of library and platform versions that can be assumed, at
@@ -1691,7 +1690,7 @@ Xcode.</dd>
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Apple Inc.
-      Last updated on 2016-06-22.
+      Last updated on 2016-08-16.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
     </div>
   </body>
